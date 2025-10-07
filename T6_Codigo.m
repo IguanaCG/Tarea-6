@@ -1,28 +1,21 @@
+tspan = [0 0.002];    
+x0 = [0; 0];
 
-t_span = [0 0.002];
-x0 = [0; 0];      
+f_pwm = 100e3;       
+opts = odeset('MaxStep', 1/(f_pwm*100)); 
 
-[t, x] = ode45(@sisPMW, t_span, x0);
+[t, x] = ode45(@sisPMW, tspan, x0, opts);
 
-
-corriente_iL = x(:, 1);
-voltaje_Vc = x(:, 2);
-
-
-figure; 
-
-
-
-plot(t, corriente_iL, 'b-', 'LineWidth', 1.5);
-title('Corriente en el Inductor (i_L)');
+figure;
+plot(t, x(:,1)); 
+grid on;
 xlabel('Tiempo (s)');
 ylabel('Corriente (A)');
+title('Corriente i(t) - Codigo');
+
+figure;
+plot(t, x(:,2)); 
 grid on;
-
-
-figure; 
-plot(t, voltaje_Vc, 'r-', 'LineWidth', 1.5);
-title('Voltaje en el Capacitor (V_c)');
 xlabel('Tiempo (s)');
-ylabel('Voltaje (V)');
-grid on;
+ylabel('Voltaje (C)');
+title('Voltaje v(t) - Codigo');
